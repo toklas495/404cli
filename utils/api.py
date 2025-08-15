@@ -69,7 +69,7 @@ def update_hack_by_id(hack_id, parsed):
         raise Exception(f"Update failed: {res.status_code} — {res.text}")
     return res.json()
 
-def search_hacks(tag,q,limit):
+def search_hacks(tag,q,limit,page):
 
     SEARCH_URL = f"{API_BASE}/hacks/search";
     params = {};
@@ -79,6 +79,9 @@ def search_hacks(tag,q,limit):
         params["q"] = q;
     if(limit):
         params["limit"]=limit;
+    
+    if(page):
+        params["page"]=page;
     res = requests.get(
         SEARCH_URL,
         params=params
@@ -88,6 +91,32 @@ def search_hacks(tag,q,limit):
         raise Exception(f"Update failed: {res.status_code} — {res.text}")
     
     return res.json();
+
+def get_draft_hacks(page,limit):
+    DRAFT_URL = f"{API_BASE}/hacks/drafts"
+    token = load_token();
+    if not token:
+        raise Exception("No token found. Use: 404cmd set --token <token>")
+
+
+    params = {};
+    if(limit):
+        params["limit"]=limit;
+    
+    if(page):
+        params["page"] = page;
+
+    res = requests.get(
+        DRAFT_URL,
+        params=params,
+        headers={"Authorization": f"Bearer {token}"}
+    )
+
+    if res.status_code!=200:
+       raise Exception(f"Draft failed: {res.status_code} — {res.text}")
+    
+    return res.json();
+
 
 
 
