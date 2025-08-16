@@ -15,6 +15,9 @@ def push_hack(
     draft: bool = typer.Option(False, "--draft", help="Push as draft")
 ):
     try:
+        if not file.endswith(".md"):
+            raise typer.BadParameter("Only .md files are allowed.")
+
         lines = read_markdown_file(file);
         hack = parse_markdown_file(lines);
         hack["status"] = "draft" if draft else "published"

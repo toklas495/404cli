@@ -1,22 +1,23 @@
+
 # 404cli 🏴‍☠️
 
-A lean, hacker‑grade CLI tool for writing, managing, and publishing your hack writeups to the **404Nation** platform.
+A lean, hacker-grade CLI tool for writing, managing, and publishing your hack writeups to the **404Nation** platform.
 
 ---
 
 ## ⚡ Installation
 
-\`\`\`bash
+```bash
 git clone https://github.com/toklas495/404cli.git
 cd 404cli
 pip install -e .
-\`\`\`
+```
 
-Now you can use:
+Now you can run:
 
-\`\`\`bash
+```bash
 404cmd
-\`\`\`
+```
 
 ---
 
@@ -24,13 +25,13 @@ Now you can use:
 
 ### 1. Set Your CLI Token
 
-Grab a \`cli_…\` token from your 404Nation dashboard and save it:
+Grab a `cli_…` token from your 404Nation dashboard and save it:
 
-\`\`\`bash
+```bash
 404cmd set --token cli_<YOUR_TOKEN>
-\`\`\`
+```
 
-✅ Token is saved at \`~/.config/404cli/config.json\`
+✅ Token is stored at `~/.config/404cli/config.json`
 
 ---
 
@@ -38,77 +39,90 @@ Grab a \`cli_…\` token from your 404Nation dashboard and save it:
 
 ### Push Hack
 
-\`\`\`bash
+```bash
 404cmd push hack.md --draft
-\`\`\`
+```
 
 ### Read Hack
 
-\`\`\`bash
-404cmd read
+```bash
 404cmd read --id abc123
-\`\`\`
+404cmd read --slug my-first-hack
+404cmd read              # defaults to last hack
+```
 
 ### Update Hack
 
-\`\`\`bash
+```bash
 404cmd update --id abc123 --draft
-\`\`\`
+404cmd update --slug my-first-hack
+```
+
+### Preview Hack (local only)
+
+```bash
+404cmd preview hack.md
+```
+
+Renders your Markdown in the terminal using `rich` — same as it appears on 404Nation.
 
 ### Whoami
 
-\`\`\`bash
+```bash
 404cmd whoami
-\`\`\`
+```
 
 ### Search
 
-\`\`\`bash
+```bash
 404cmd search "title:jwt && @latest"
-\`\`\`
+```
 
 ---
 
 ## ⚙️ Configuration & Metadata
 
-- \`~/.config/404cli/config.json\` — CLI token
-- \`~/.config/404cli/.404meta.json\` — last pushed hack
+* `~/.config/404cli/config.json` → stores your CLI token
+* `~/.config/404cli/.404meta.json` → tracks last pushed hack
 
 ---
 
 ## ✅ CLI Patterns & UX
 
-- Defaults to last pushed ID
-- Clean exit codes
-- \`--json\` outputs raw data
-- Reads open in \`less\`
+* Defaults to last pushed ID/slug
+* Clean exit codes for scripting
+* `--json` outputs raw API response
+* `read` + `preview` use `less` for smooth paging
 
 ---
 
 ## 🔧 Developer Guide
 
-- Python + \`typer\`, \`rich\`, \`requests\`
-- \`utils/\` → parser, editor utils
-- \`commands/\` → each CLI command
+* Built with **Python**, `typer`, `rich`, `requests`
+* `utils/` → parsing, editor, meta helpers
+* `commands/` → individual CLI commands
 
 ---
 
-## 🛠 Future Improvements
+## 🛠 Roadmap
 
-- Add \`list\` or \`log\` command
-- Support \`--slug\` filter
-- Autocomplete, usage hints
-- \`404cmd render hack.md\`
+* `list` / `log` commands
+* `--slug` support (✅ added)
+* Autocomplete + usage hints
+* `404cmd render hack.md` to HTML
 
 ---
 
 ## ⚖️ License
 
-MIT — fork and customize freely.
+MIT — fork and hack freely.
 
 ---
 
 ## 🚀 Feedback
 
-Open issues or PRs at:  
+Open issues or PRs at:
 [github.com/toklas495/404cli](https://github.com/toklas495/404cli)
+
+---
+

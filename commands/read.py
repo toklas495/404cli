@@ -1,10 +1,7 @@
 import typer
 from rich.console import Console
 from rich.panel import Panel
-from rich.table import Table
-from rich.markdown import Markdown
-from rich.text import Text
-from rich.console import Group
+from utils.display import render_hack
 
 from utils.api import get_hack_by_id, get_hack_by_slug
 from utils.meta import load_last_hack_id
@@ -45,28 +42,7 @@ def read_hack(
             source = f"id: {hack_id}"
 
         # Prepare metadata table
-        meta_table = Table.grid(padding=(0, 1))
-        meta_table.add_column(justify="right", style="bold cyan")
-        meta_table.add_column()
-
-        meta_table.add_row("🏴 Title:", hack.get("title", "N/A"))
-        meta_table.add_row("🏷️ Tags:", ", ".join(hack.get("tags", [])))
-        meta_table.add_row("📄 Status:", hack.get("status", "N/A"))
-        meta_table.add_row("🧑 Author:", hack.get("author_name", "N/A"))
-        meta_table.add_row("🕒 Created:", format_date(hack.get("created_at", "N/A")))
-        meta_table.add_row("🕒 Updated:", format_date(hack.get("updated_at", "N/A")))
-
-        meta_panel = Panel(meta_table, title=f"[green]404 Hack ({source})[/green]", border_style="green")
-
-        # Content
-        markdown = Markdown(hack.get("content", ""))
-        group = Group(meta_panel, Text.from_markup("\n👨‍💻 [bold yellow]Content:[/bold yellow]\n"), markdown)
-
-        # Display via less
-        output_buffer = StringIO()
-        temp_console = Console(file=output_buffer, force_terminal=True, width=100)
-        temp_console.print(group)
-        subprocess.run(["less", "-R"], input=output_buffer.getvalue().encode())
+        render_hack(hack,"online")
 
     except Exception as e:
         console.print(Panel.fit(

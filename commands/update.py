@@ -26,7 +26,13 @@ def update(
         tags = ", ".join(hack.get("tags",[]));
         initial = f"# {hack['title']}\n> tags: {tags}\n\n{hack['content']}"
 
-        edited = open_in_editor(initial);
+        edited = open_in_editor(initial).strip();
+
+         # 🛑 If user didn’t change anything, skip update
+        if edited == initial.strip():
+            console.print("[yellow]⚠️ No changes detected. Hack not updated.[/yellow]")
+            return
+            
         parsed = parse_markdown_string(edited);
 
         edited_hack = {
